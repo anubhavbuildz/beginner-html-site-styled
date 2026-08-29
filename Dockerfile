@@ -1,18 +1,14 @@
 FROM ubuntu:24.04
 
-WORKDIR /app
+RUN apt update && \
+    apt install -y apache2 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
+COPY index.html /var/www/html/index.html
 
-# Copy your application
-COPY . /app
-
-# Install Python dependencies if requirements.txt exists
-
-# Expose port 99
 EXPOSE 99
 
+RUN sed -i 's/Listen 80/Listen 99/' /etc/apache2/ports.conf && \
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:99>/' /etc/apache2/sites-enabled/000-default.conf
+
+CMD ["apachectl", "-D", "FOREGROUND"]
