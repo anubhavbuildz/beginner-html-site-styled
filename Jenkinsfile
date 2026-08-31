@@ -1,6 +1,9 @@
+```groovy
 pipeline {
 
-    agent any
+    agent {
+        label 'agent'
+    }
 
     environment {
         DOCKER_IMAGE = "anubhavbuildz/intellipat"
@@ -58,21 +61,12 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 sh '''
-                    kubectl get deployment
                     kubectl get pods
+                    kubectl get deployment
                     kubectl get service
                 '''
             }
         }
     }
-
-    post {
-        success {
-            echo 'Docker image pushed and Kubernetes deployment completed successfully!'
-        }
-
-        failure {
-            echo 'Jenkins pipeline failed.'
-        }
-    }
 }
+```
