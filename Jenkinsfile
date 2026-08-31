@@ -51,7 +51,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                    kubectl apply -f /home/ubuntu/k8s/worker.yaml
+                    kubectl apply -f /home/ubuntu/worker.yaml
                 '''
             }
         }
