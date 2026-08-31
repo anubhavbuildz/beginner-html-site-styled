@@ -19,7 +19,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                    docker build \
+                    sudo docker build \
                         -t ${DOCKER_IMAGE}:${BUILD_NUMBER} \
                         -t ${DOCKER_IMAGE}:latest \
                         .
@@ -41,8 +41,8 @@ pipeline {
                             -u "$DOCKER_USERNAME" \
                             --password-stdin
 
-                        docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
-                        docker push ${DOCKER_IMAGE}:latest
+                        sudo docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}
+                        sudo docker push ${DOCKER_IMAGE}:latest
                     '''
                 }
             }
